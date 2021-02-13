@@ -1,0 +1,53 @@
+package d_210206;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class n_2231 {
+
+	// 분해합 구하기
+	public static int getValue(int n) {
+		int res = n;
+		while(true) {
+			res += n % 10;
+			if(n/10 == 0) {
+				break;
+			}
+			n /= 10;
+		}
+		
+		return res;
+	}
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		int N, M, len;
+		
+		N = 0;
+		M = Integer.parseInt(br.readLine());
+		len = 1;
+		
+		// 자릿수 구하기
+		int tmp = M;
+		while(true) {
+			tmp /= 10;
+			if(tmp == 0) {
+				break;
+			}
+			len++;
+		}
+		
+		for(tmp = (M - len*9 < 0) ? 0 : M-len*9; tmp <= M; tmp++) {
+			if(getValue(tmp) == M) {
+				N = tmp;
+				break;
+			}
+		}
+		
+		System.out.println(N);
+		
+	}
+
+}
