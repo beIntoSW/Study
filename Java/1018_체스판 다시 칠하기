@@ -1,0 +1,87 @@
+package d_210206;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class n_1018 {
+	final static int SIZE = 8, TOTAL = 64;
+	static String chess[];
+	final static String INIT_W = "WBWBWBWB", INIT_B = "BWBWBWBW";
+	
+	// get count_change chess...?
+	public static int getChangeCount(int r_idx, int c_idx) {
+		int count = 0;
+//		boolean isW = (chess[idx].charAt(idx) == 'W') ? true : false;
+//		String prev_row, prev_col;
+//		
+		// 'W' or 'B'
+		char correct_value = chess[r_idx].charAt(c_idx);
+		
+		for(int r = r_idx; r < SIZE + r_idx; r++) {
+			for(int c = c_idx; c < SIZE + c_idx; c++) {
+				// any conditions..
+				
+				// not correct
+				if(chess[r].charAt(c) != correct_value) {
+					count++;
+				}
+				// correct
+				if(correct_value == 'W') {
+					correct_value = 'B';
+				}
+				else {
+					correct_value = 'W';
+				}
+			}
+			
+			if(correct_value == 'W') {
+				correct_value = 'B';
+			}
+			else {
+				correct_value = 'W';
+			}
+		}
+		return (TOTAL - count > count) ? count : TOTAL - count;
+	}
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		int col, row, result = TOTAL+1;
+		
+		st = new StringTokenizer(br.readLine());
+		
+		row = Integer.parseInt(st.nextToken());
+		col = Integer.parseInt(st.nextToken());
+		
+		// 0 ~ row-1 / 0 ~ col-1
+		// init chess
+		chess = new String[row];
+		for(int i = 0;i<row;i++) {
+			chess[i] = br.readLine();
+		}
+		
+		
+		// start index
+		int count;
+		for(int r = 0; r <= row - SIZE;r++) {
+			for(int c= 0; c <= col - SIZE; c++) {
+				// blah blah func;...
+				count = getChangeCount(r, c);
+				System.out.println("count : " + count);
+				result = (result > count) ? count : result;
+				
+			}
+		}
+		
+		
+		System.out.println(result);
+		
+		
+
+		
+	}
+}
