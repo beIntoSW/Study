@@ -1,0 +1,43 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class n_1436 {
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		int N = Integer.parseInt(br.readLine());
+		int idx = 0;
+		int value = 666;
+		char tmp[];
+
+		while(true) {
+			tmp = Integer.toString(value).toCharArray();
+
+			if(tmp.length >= 3) {
+				for(int i = 0; i <= tmp.length-3; i++) {
+
+					if(tmp[i] == '6' && tmp[i+1] == '6' && tmp[i+2] == '6') {
+						idx++;
+						break;
+					}
+				}
+			}
+			
+			if(N == idx) {
+				System.out.println(value);
+				return;
+			}
+			
+			
+			value++;
+		}
+		
+		
+
+		
+	}
+}
