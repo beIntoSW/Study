@@ -1,0 +1,106 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+import java.util.*;
+
+
+public class Main {
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	
+	static StringTokenizer st;
+	static final int INIT = 0; // None
+	static final int C_1 = 1;
+	static final int C_2 = 2;
+	
+	static boolean BFS(ArrayList<ArrayList<Integer>> GRAPH, int[] TABLE) {
+
+		// init
+		Queue<Integer> q = new LinkedList<Integer>();
+		int cur_v, conn_v;
+		
+		for(int i = 1; i < TABLE.length; i++) {
+			if(TABLE[i] != INIT) {
+				continue;
+			}
+
+			q.offer(i); // init 0 // 임의로 시작
+			TABLE[i] = C_1;
+			
+			while(!q.isEmpty()) {
+				cur_v = q.poll(); // remove + get
+				
+				for(int idx = 0; idx < GRAPH.get(cur_v).size(); idx++) {
+					conn_v = GRAPH.get(cur_v).get(idx);
+					
+					if(TABLE[conn_v] == INIT) {
+						q.offer(conn_v);
+						TABLE[conn_v] = (TABLE[cur_v] == C_1) ? C_2 : C_1;
+					}
+					else if(TABLE[conn_v] == TABLE[cur_v]) {
+						return false;
+					}
+					
+				}
+			
+				
+			}
+					
+		
+		}
+		return true;
+	}
+	
+	
+	static void process() throws NumberFormatException, IOException {
+		st = new StringTokenizer(br.readLine());
+		int V = Integer.parseInt(st.nextToken());
+		int E = Integer.parseInt(st.nextToken());
+		
+		ArrayList<ArrayList<Integer>> GRAPH = new ArrayList<ArrayList<Integer>>();
+		int TABLE[] = new int[V+1];
+		
+		// init graph
+		for(int i = 0; i<=V;i++) {
+			GRAPH.add(new ArrayList<Integer>());
+		}
+		
+		// add connected vertex
+		for(int i = 0; i<E;i++) {
+			st = new StringTokenizer(br.readLine());
+			int v1, v2;
+			v1 = Integer.parseInt(st.nextToken());
+			v2 = Integer.parseInt(st.nextToken());
+			
+			GRAPH.get(v1).add(v2);
+			GRAPH.get(v2).add(v1);
+		}
+		
+		
+		
+		if(BFS(GRAPH, TABLE)) {
+			System.out.println("YES");
+		}
+		else {
+			System.out.println("NO");
+		}
+		
+		
+	}
+	
+	/*
+	 * 이분 그래프 확인하는 함수 필요
+	 * 
+	 */
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		// TODO Auto-generated method stub
+		
+		int TEST = Integer.parseInt(br.readLine());
+		
+		for(int t = 0; t<TEST; t++) {
+			process();
+		}
+		
+	}}
