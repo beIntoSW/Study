@@ -1,0 +1,86 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	static final int DIRECTION[][] = {{1,0} , {-1,0}, {0,1}, {0, -1}};
+	
+	
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	
+		StringTokenizer st;
+		
+		int TOTAL = 0; // 안익은 토마토 총 개수
+		int DAY = 1;
+		
+		
+		int R, C;
+		st = new StringTokenizer(br.readLine());
+		
+		C = Integer.parseInt(st.nextToken());
+		R = Integer.parseInt(st.nextToken());
+		
+		int table[][] = new int[R][C];
+		Queue<Integer> r_q = new LinkedList<Integer>();
+		Queue<Integer> c_q = new LinkedList<Integer>();
+		
+		for(int i = 0;i<R;i++) {
+			st = new StringTokenizer(br.readLine());
+			
+			for(int j = 0; j < C; j++) {
+				table[i][j] = Integer.parseInt(st.nextToken());
+				
+				if(table[i][j] == 0)
+					TOTAL++;
+				else if(table[i][j] == 1) {
+					r_q.offer(i);
+					c_q.offer(j);
+				}
+			}
+		}
+		
+		
+		int ar, ac, cr, cc;
+		while(!r_q.isEmpty()) {
+			cr = r_q.poll();
+			cc = c_q.poll();
+			
+			for(int[] dir : DIRECTION) {
+				ar = cr + dir[0];
+				ac = cc + dir[1];
+				
+				// insert queue
+				if(ar >= 0 && ar < R && ac >= 0 && ac < C) {
+					// 익을 예정
+					if(table[ar][ac] == 0) {
+						TOTAL--;
+						table[ar][ac] = table[cr][cc] + 1;
+						
+						DAY = (DAY < table[ar][ac]) ? table[ar][ac] : DAY;
+						r_q.offer(ar);
+						c_q.offer(ac);
+					}
+				}
+				
+				
+			}
+		}
+		
+		
+		
+		
+		
+		if(TOTAL != 0) {
+			System.out.println(-1);
+		}
+		else {
+			System.out.println(DAY-1);
+		}
+		
+	}
+
+}
