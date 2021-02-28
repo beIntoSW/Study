@@ -1,0 +1,76 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+public class Main {
+
+	static int res = 0;
+	static ArrayList<Integer> table[];
+	static boolean check[];
+	
+	static void BFS(int n) {
+		Queue<Integer> q = new LinkedList<Integer>();
+		
+		q.offer(n);
+		
+		check[n] = true;
+		
+		while(!q.isEmpty()) {
+			int v = q.poll();
+			
+			for(int conn_v : table[v]) {
+				if(!check[conn_v]) {
+					q.add(conn_v);
+					check[conn_v] = true;
+					res++;
+				}
+			}
+			
+			
+		}
+		
+		
+		
+	}
+	
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		int V, E;
+		V = Integer.parseInt(br.readLine());
+		E = Integer.parseInt(br.readLine());
+		
+		check = new boolean[V+1];
+		table = new ArrayList[V+1];
+		
+		
+		for(int i = 1; i<=V;i++) {
+			table[i] = new ArrayList();
+		}
+		
+		int v1 = 0, v2 = 0;
+		for(int i = 0; i<E;i++) {
+			st = new StringTokenizer(br.readLine());
+			
+			v1 = Integer.parseInt(st.nextToken());
+			v2 = Integer.parseInt(st.nextToken());
+
+			table[v1].add(v2);
+			table[v2].add(v1);
+		}
+		
+		BFS(1);
+		
+		System.out.println(res);
+	}
+
+}
