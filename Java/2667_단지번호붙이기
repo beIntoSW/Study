@@ -1,0 +1,95 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	static PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+	static boolean table[][];
+	static boolean check[][];
+	static int V;
+	static int dx[] = new int[]{-1, 0, 1, 0};
+	static int dy[] = new int[]{0, -1, 0, 1};
+	static int count = 0;
+	
+	static void BFS(int i, int j) {
+		int res = 1;
+		count++;
+		Queue<Integer> i_q = new LinkedList<Integer>();
+		Queue<Integer> j_q = new LinkedList<Integer>();
+		i_q.offer(i);
+		j_q.offer(j);
+		
+		
+		check[i][j] = true;
+		
+		int r, c, c_r, c_c;
+		while(!i_q.isEmpty() && !j_q.isEmpty()) {
+
+			r = i_q.poll();
+			c = j_q.poll();
+			
+			for(int k = 0; k < 4; k++) {
+				c_r = r + dx[k];
+				c_c = c + dy[k];
+				
+	
+				if((c_r > 0 && c_r <= V ) && (c_c > 0 && c_c <= V)) {
+					if(table[c_r][c_c] && !check[c_r][c_c])
+					{
+						res++;
+						i_q.offer(c_r);
+						j_q.offer(c_c);
+						
+						check[c_r][c_c] = true;
+					}
+				}
+			}		
+		}
+		
+		pq.add(res);
+		
+	}
+	
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));	
+
+		V = Integer.parseInt(br.readLine());
+		
+		check = new boolean[V+1][V+1];
+		table = new boolean[V+1][V+1];
+		
+		
+		String tmp = "";
+		for(int i = 1; i<=V;i++) {
+			tmp = br.readLine();
+			for(int j = 1; j<=V;j++) {
+				table[i][j] = (tmp.charAt(j-1) == '1')?true:false;
+			}
+		}
+		
+		
+		for(int i = 1; i<= V; i++) {
+			for(int j = 1; j<=V ; j++) {
+				if(table[i][j] && !check[i][j]) {
+					BFS(i, j);
+				} 	
+				
+			}
+		}
+		
+		
+		System.out.println(count);
+		
+		while(!pq.isEmpty()) {
+			System.out.println(pq.poll());
+		}
+			
+	}
+}
