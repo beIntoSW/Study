@@ -1,0 +1,60 @@
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main {
+    final static long INIT = 1000000000;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        //BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+
+
+        int N = Integer.parseInt(br.readLine());
+
+        long dist[] = new long[N-1];
+
+        // int
+        long liters[] = new long[N];
+
+        long cost = 0;
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < N-1; i++){
+            dist[i] = Integer.parseInt(st.nextToken());
+        }
+
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < N; i++){
+            liters[i] = Integer.parseInt(st.nextToken());
+        }
+
+
+        long cur_dist = dist[0], cur_liter = liters[0];
+        for(int idx = 1; idx < N-1; idx++){
+            // 더 적은 리터값 존재
+            if(cur_liter > liters[idx]){
+
+                cost += cur_dist * cur_liter;
+                cur_dist = dist[idx];
+                cur_liter = liters[idx];
+
+            }
+            // 현재 리터값이 가장 쌀 경우
+            else {
+                cur_dist += dist[idx];
+            }
+        }
+
+        cost += cur_dist * cur_liter;
+
+
+
+        System.out.println(cost);
+
+
+
+
+
+    }
+}
